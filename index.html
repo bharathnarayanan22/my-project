@@ -1,1 +1,122 @@
-Hello, I am bharath narayanan
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch Application</title>
+    <style>
+        /* CSS for styling the stopwatch */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0e0e0;
+        }
+        .stopwatch {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #display {
+            font-size: 2.5em;
+            color: #333;
+            margin: 20px 0;
+        }
+        .controls button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        #startBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #startBtn:hover {
+            background-color: #45a049;
+        }
+        #stopBtn {
+            background-color: #f44336;
+            color: white;
+        }
+        #stopBtn:hover {
+            background-color: #da190b;
+        }
+        #resetBtn {
+            background-color: #2196F3;
+            color: white;
+        }
+        #resetBtn:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <h1>Stopwatch</h1>
+        <!-- Display for elapsed time -->
+        <div id="display">00:00:00</div>
+        <!-- Buttons for controlling the stopwatch -->
+        <div class="controls">
+            <button id="startBtn">Start</button>
+            <button id="stopBtn">Stop</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for stopwatch functionality
+        let time = 0; // Total time in milliseconds
+        let isRunning = false; // Flag to track stopwatch state
+        let intervalId = null; // Store interval ID for clearing
+
+        const display = document.getElementById('display');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Update display with formatted time (HH:MM:SS)
+        function updateDisplay() {
+            const hours = Math.floor(time / 3600000);
+            const minutes = Math.floor((time % 3600000) / 60000);
+            const seconds = Math.floor((time % 60000) / 1000);
+            display.textContent = 
+                ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')};
+        }
+
+        // Start the stopwatch
+        startBtn.addEventListener('click', () => {
+            if (!isRunning) {
+                isRunning = true;
+                intervalId = setInterval(() => {
+                    time += 1000; // Increment by 1 second
+                    updateDisplay();
+                }, 1000);
+            }
+        });
+
+        // Stop the stopwatch
+        stopBtn.addEventListener('click', () => {
+            if (isRunning) {
+                isRunning = false;
+                clearInterval(intervalId);
+            }
+        });
+
+        // Reset the stopwatch
+        resetBtn.addEventListener('click', () => {
+            isRunning = false;
+            clearInterval(intervalId);
+            time = 0;
+            updateDisplay();
+        });
+    </script>
+</body>
+</html>
